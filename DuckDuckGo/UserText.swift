@@ -19,7 +19,15 @@ public struct UserText {
     public static let onboardingPrivacyRightTitle = forKey("onboarding.privacyright.title")
     public static let onboardingPrivacyRightDescription = forKey("onboarding.privacyright.description")
     
-    fileprivate static func forKey(_ key: String) -> String {
-        return NSLocalizedString(key, comment: key)
+    private static func forKey(_ key: String) -> String {
+        let fallback = fallbackStringForKey(key)
+        return Bundle.main.localizedString(forKey: key, value: fallback, table: nil)
+    }
+    
+    private static func fallbackStringForKey(_ key: String) -> String? {
+        guard let path = Bundle.main.path(forResource: "en", ofType: "lproj") else { return nil }
+        guard let bundle = Bundle(path: path) else { return nil }
+        let string = bundle.localizedString(forKey: key, value: key, table: nil)
+        return string
     }
 }
