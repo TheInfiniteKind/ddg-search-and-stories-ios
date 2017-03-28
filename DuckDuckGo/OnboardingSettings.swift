@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct OnboardingSettings {
+public class OnboardingSettings: NSObject {
     
     private let suit = "settingsSuit"
     

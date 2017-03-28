@@ -208,13 +208,24 @@ continueUserActivity:(NSUserActivity *)userActivity
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     [self.homeController checkAndRefreshSettings];
-    [self startOnboardingFlow];
+    [self startOnboardingFlowIfNotSeen];
 }
+ 
 
+#pragma mark - Onboarding Flow
+- (void)startOnboardingFlowIfNotSeen {
+    OnboardingSettings *settings = [OnboardingSettings new];
+    if (!settings.hasSeenOnboarding) {
+        settings.hasSeenOnboarding = YES;
+        [self startOnboardingFlow];
+    }
+}
+    
 - (void)startOnboardingFlow {
     OnboardingViewController* controller = [OnboardingViewController loadFromStoryboard];
     [self.homeController presentViewController:controller animated:YES completion:nil];
 }
+
 
 #pragma mark - 3DTouch Shortcuts
 -(void)updateShortcuts {
